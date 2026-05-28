@@ -1,0 +1,36 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  //url      = env("DATABASE_URL")
+}
+
+model Trip {
+  id          String   @id @default(cuid())
+destination String
+  startDate   String
+  endDate     String
+  budget      String
+  interests   String[]
+  travelStyle String
+  itinerary   Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  shareToken  String   @unique @default(cuid())
+
+  @@map("trips")
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  tripId    String
+  role      String   // "user" | "assistant"
+  content   String
+  createdAt DateTime @default(now())
+
+  @@map("chat_messages")
+}
